@@ -2,3 +2,4 @@ vim/autoload
 vim/Session.vim
 vim/.netrwhist
 vim/bundle/*
+vim/eclim
