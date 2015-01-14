@@ -102,6 +102,7 @@ function git_diff {
     rm -f $GIT_DIFF_OUT.old 2> /dev/null
   fi
   cp "$GIT_DIFF_OUT" "$GIT_DIFF_OUT.old" 2> /dev/null
+  rm -f $GIT_DIFF_OUT
   git svn-diff > $GIT_DIFF_OUT
   if [ -e "$GIT_DIFF_OUT.old" ]
   then
@@ -154,7 +155,12 @@ function git_prompt_info() {
 function git_prompt_status() {
 }
 
-alias lsdf='get_diff_out;cat ;echo ;'
+function htmldecode()
+{
+  perl -n -mHTML::Entities -e ' ; print HTML::Entities::decode_entities($_) ;'
+}
+
+alias lsdf='get_diff_out;cat $GIT_DIFF_OUT'
 alias rb='git svn rebase'
 alias sdf=git_diff
 alias yu='sudo apt-get update && sudo apt-get upgrade'
@@ -170,6 +176,7 @@ if [ $IS_OSX ]; then
 else
   alias ls='ls --color=auto'
   alias o=gnome-open
+  export UBUNTU_MENUPROXY=0
 fi
 alias ll='ls -lh'
 
