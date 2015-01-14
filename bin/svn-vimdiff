@@ -32,7 +32,7 @@ function run_with_headers() {
   export command=$3
   export line="================================================================"
 
-  echo "$files" | parallel --keep-order --no-notice "revision=\${revision:-\$(svn info '{}' | grep Revision | awk '{print \$2}')}; revision=\${revision:-0}; echo -e \"\$line\n{} - \$revision\n\$line\" && $command"
+  echo "$files" | parallel --gnu --keep-order --no-noticce "revision=\${revision:-\$(svn info '{}' | grep Revision | awk '{print \$2}')}; revision=\${revision:-0}; echo -e \"\$line\n{} - \$revision\n\$line\" && $command" 2> /dev/null
 }
 
 SVN_STAT=$(echo -e $ARG_FILES | xargs svn status --ignore-externals)
