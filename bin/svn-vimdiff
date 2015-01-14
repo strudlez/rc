@@ -26,6 +26,15 @@ else
   fi
 fi
 
+function run_with_headers() {
+  local files=$1
+  local revision=$2
+  local command=$3
+  line="================================================================"
+
+  echo "$FILES" | xargs -I{} bash -c "revision=$revision; revision=\${revision:-\$(svn info '{}' | grep Revision | awk '{print \$2}')}; revision=\${revision:-0}; echo -e \"$line\n{} - \$revision\n$line\" && $command"
+}
+
 SVN_STAT=$(echo -e $ARG_FILES | xargs svn status --ignore-externals)
 
 FILES=$(echo -e "$SVN_STAT" | grep -P '^(A|M|D)' | cut -d' ' -f8-)
@@ -34,5 +43,4 @@ if [ "$FILES" == "" ];then
   exit 0
 fi
 
-REVISION=$(svn info | grep Revision | awk '{print $2}')
-vimdiff <(echo $FILES | xargs svn cat -r$REVISION 2> /dev/null) <(echo $FILES | xargs cat)
+vimdiff <(run_with_headers "$FILES" '' "svn cat -r\$revision '{}' 2> /dev/null") <(run_with_headers "$FILES" "CURRENT" "cat '{}'")
