@@ -47,7 +47,7 @@ set tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 set autoindent smartindent cindent
 
 au BufRead,BufNewFile Makefile* set noexpandtab
-au BufRead,BufNewFile *.java setlocal tabstop=4 softtabstop=4 shiftwidth=4
+au BufRead,BufNewFile *.java setlocal tabstop=2 softtabstop=2 shiftwidth=2
 au BufRead,BufNewFile *.vm setlocal tabstop=2 softtabstop=2 shiftwidth=2 textwidth=200
 au BufRead,BufNewFile *.rb  set textwidth=80
 au BufRead,BufNewFile *.js  set textwidth=80
