@@ -92,6 +92,7 @@ bind-key -t vi-copy 'y' copy-selection
 bind -t vi-copy Escape cancel
 
 # Saner split window shortcuts
+bind-key % split-window -h -c "#{pane_current_path}"
 bind-key | split-window -h -c "#{pane_current_path}"
 bind-key _ split-window -v -c "#{pane_current_path}"
 
