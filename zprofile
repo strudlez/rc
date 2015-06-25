@@ -6,6 +6,7 @@ if [ -z $DISPLAY ] && [ -d /tmp/.X11-unix ]; then
   export DISPLAY=:0
 fi
 if [ -n "$SSH_TTY" -a -z "$STY" ]; then
+  export PATH=$PATH:/usr/games
   export TERM=xterm-256color
   fortune fortunes | cowsay -f turtle
   echo Tmux Sessions:
