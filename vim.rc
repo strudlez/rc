@@ -211,6 +211,15 @@ nnoremap <silent> ]l :call WrapCommand('down', 'l')<CR>
 imap <C-a> <Esc>I
 imap <C-e> <Esc>A
 
+" Maintain cursor position in file
+:au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g'\"" | endif
+
+" ,, Turn off search highlight
+nmap ,, :nohlsearch<CR>
+
+" Toggle paste mode
+nmap ,p :set invpaste paste?<CR>
+
 " Systastic
 let g:syntastic_enable_signs=1
 let g:syntastic_auto_loc_list=1
@@ -232,6 +241,9 @@ map <Leader>R <ESC>:JavaSearch -x references -p
 
 map ; <ESC>:JavaCorrect<CR>
 map <Leader>; <ESC>:lfirst<CR>:JavaCorrect<CR>
+
+" Fix imports
+nmap ,i :JavaImportOrganize<CR>
 
 let g:EclimCompletionMethod = 'omnifunc'
 
@@ -255,8 +267,6 @@ let g:airline_theme='badwolf'
 
 " Taglist
 map <silent> <Leader>t :TlistToggle<CR>
-
-nmap , :nohlsearch<CR>
 
 let g:haddock_browser="o"
 
