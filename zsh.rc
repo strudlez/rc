@@ -57,6 +57,10 @@ source $RCDIR/submodules/zsh-history-substring-search.git/zsh-history-substring-
 [[ -n "${key[Down]}" ]] && bindkey "${key[Down]}" history-substring-search-down
 export PROMPT="$PROMPT%{$(echo "\a")%}"
 
+# Don't correct args inside of commands
+unsetopt correct_all
+setopt correct
+
 # Time commands that take >10s to finish
 export REPORTTIME=10
 
@@ -187,3 +191,4 @@ fi
 if [ -f "$HOME/.zsh.local" ]; then
   source $HOME/.zsh.local
 fi
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
