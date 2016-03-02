@@ -1,8 +1,5 @@
 syntax on
 set t_Co=256
-" color mango "
-syntax on
-set t_Co=256
 set nocompatible
 filetype off
 
@@ -11,12 +8,10 @@ set rtp+=~/.vim/bundle/Vundle.vim/
 call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 
-
 " Navigation "
 Plugin 'kien/ctrlp.vim'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'benmills/vimux'
-Plugin 'epeli/slimux'
 Plugin 'Lokaltog/vim-easymotion'
 Plugin 'tpope/vim-vinegar'
 
@@ -28,38 +23,38 @@ Plugin 'w0ng/vim-hybrid'
 Plugin 'tpope/vim-vividchalk'
 Plugin 'goatslacker/mango.vim'
 Plugin 'sjl/badwolf'
+Plugin 'flazz/vim-colorschemes'
 
 " Search "
 Plugin 'rking/ag.vim'
 
 " Utilities "
-" Plugin 'mhinz/vim-startify'
+" Plugin 'mhinz/vim-startify' "
 Plugin 'sjl/gundo.vim'
 Plugin 'tpope/vim-fugitive'
-Plugin 'bling/vim-airline'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 Plugin 'vim-scripts/gitignore'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'tmux-plugins/vim-tmux-focus-events'
 Plugin 'edkolev/tmuxline.vim'
 Plugin 'tpope/vim-obsession'
 
-
 " Editing "
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-sensible'
+Plugin 'tpope/vim-unimpaired'"
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'scrooloose/syntastic'
-
-" Decide, do we need these? Goyo vs NrrwRgn "
-Plugin 'junegunn/goyo.vim'
-Plugin 'junegunn/limelight.vim'
-
-Plugin 'chrisbra/NrrwRgn'
+Plugin 'myint/syntastic-extras'
+" Plugin 'mattn/emmet-vim'
+Plugin 'terryma/vim-multiple-cursors'
+"  Plugin 'chrisbra/NrrwRgn'
 
 " Tag Support "
 Plugin 'vim-scripts/taglist.vim'
 Plugin 'tmhedberg/matchit'
-Plugin 'tpope/vim-surround'
+" Plugin 'tpope/vim-surround'
 
 " Language support "
 Plugin 'vim-ruby/vim-ruby'
@@ -69,23 +64,21 @@ Plugin 'cakebaker/scss-syntax.vim'
 Plugin 'moll/vim-node'
 Plugin 'pangloss/vim-javascript'
 Plugin 'burnettk/vim-angular'
+Plugin 'elzr/vim-json'
 Plugin 'millermedeiros/vim-esformatter'
 Plugin 'marijnh/tern_for_vim'
 Plugin 'sidorares/node-vim-debugger'
 Plugin 'ekalinin/Dockerfile.vim'
+Plugin 'leafgarland/typescript-vim'
+Plugin 'rust-lang/rust.vim'
 
 call vundle#end()
-
 
 set t_Co=256
 let g:rehash256 = 1 "
 
-let g:badwolf_darkgutter = 1
-let g:badwolf_css_props_highlight = 1
-
-let g:hybrid_use_Xresources = 1
-colorscheme jellybeans
 set background=dark
+colorscheme bvemu
 
 " hide the gui menubar "
 if has('gui_running')
@@ -97,7 +90,6 @@ if has('gui_running')
   endif
 endif
 
-
 "Code handling "
 syntax on
 filetype plugin indent on
@@ -105,6 +97,7 @@ set title                " change the terminal's title "
 
 "viminfo"
 set viminfo='50,%,<1000,s100,:20,n~/.vim/viminfo
+set showcmd
 
 "Search help "
 set incsearch ignorecase hlsearch
@@ -147,8 +140,8 @@ nnoremap ; :
 let mapleader=","
 
 "Ctrlp "
-map <Leader>b <ESC>:CtrlPBuffer<CR>
-map <Leader><SPACE> <ESC>:CtrlPMRUFiles<CR>
+noremap <Leader>b <ESC>:CtrlPBuffer<CR>
+noremap <Leader><SPACE> <ESC>:CtrlPMRUFiles<CR>
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_use_caching = 0
 let g:ctrlp_custom_ignore = '\v[\/](_build|(\.(git|hg|svn)))$'
@@ -156,55 +149,52 @@ let g:ctrlp_max_depth = 10
 let g:ctrlp_max_files = 0 "
 set wildignore+=*/tmp/*,*.o,*.so,*.swp,*.zip,*.jar,*.class,*.pdf,*.gif,*.png,*.jpg,*.o,*.hi "
 if executable("ag")
-   set grepprg=ag\ --nogroup\ --nocolor
-   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+  set grepprg=ag\ --nogroup\ --nocolor
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 else
   let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
   let g:ctrlp_prompt_mappings = {
-    \ 'AcceptSelection("e")': ['<space>', '<cr>', '<2-LeftMouse>'],
-    \ }
+        \ 'AcceptSelection("e")': ['<space>', '<cr>', '<2-LeftMouse>'],
+        \ }
 endif
 
 "Easymotion "
-nmap <Leader>f <Plug>(easymotion-prefix)
-nmap <Leader>j <Plug>(easymotion-j)
-nmap <Leader>k <Plug>(easymotion-k)
-nmap <Leader>s <Plug>(easymotion-s)
-nmap <Leader>d <Plug>(easymotion-s2)
+nnoremap <Leader>f <Plug>(easymotion-prefix)
+nnoremap <Leader>n <Plug>(easymotion-j)
+nnoremap <Leader>e <Plug>(easymotion-k)
+nnoremap <Leader>s <Plug>(easymotion-s)
+nnoremap <Leader>d <Plug>(easymotion-s2)
 
 "Airline "
 set laststatus=2   " Always show the statusline "
 set noshowmode " Hide the default mode text (e.g. -- INSERT -- below the statusline) "
 let g:airline_powerline_fonts=1
-let g:airline_theme='jellybeans'
+let g:airline_theme='tomorrow'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_section_y='%{ObsessionStatus()}'
 
 "Tmuxline "
 let g:airline#extensions#tmuxline#enabled = 1
 let g:tmuxline_preset = {
-  \'a' : '#S',
-  \'win': ['#I', '#W'],
-  \'cwin': ['#I', '#W'],
-  \'x' : '#(cat ~/.thyme-tmux)',
-  \'y' : ['%d-%b-%y %H:%M', '#(~/.rc/tmux/cpu.sh)%', '#(~/.rc/tmux/mem.sh)'],
-  \'options': {'status-justify': 'left'}}
+      \'a' : '#S',
+      \'win': ['#I', '#W'],
+      \'cwin': ['#I', '#W'],
+      \'x' : '#(cat ~/.thyme-tmux)',
+      \'y' : ['%d-%b-%y %H:%M', '#(~/.rc/tmux/cpu.sh)%', '#(~/.rc/tmux/mem.sh)'],
+      \'options': {'status-justify': 'left'}}
 
-"Navigate wrapped lines "
-nnoremap j gj
-nnoremap k gk
 
 "Noob training "
-map <up> <nop>
-map <down> <nop>
-map <left> <nop>
-map <right> <nop>
+noremap <up> <nop>
+noremap <down> <nop>
+noremap <left> <nop>
+noremap <right> <nop>
 
 " gundo "
 nnoremap <Leader>u :GundoToggle<CR>
 
 " Vim Fugitive "
-nmap <Leader>g :Gstatus<CR>
+nnoremap <Leader>g :Gstatus<CR>
 
 " vimux "
 function VimuxMakeRun()
@@ -212,40 +202,7 @@ function VimuxMakeRun()
   :VimuxInterruptRunner
   :VimuxRunCommand("clear;make run")
 endfunction
-map <Leader>r :exec VimuxMakeRun()<CR>
-
-
-function SlimuxMakeRun()
-  SlimuxSendKeys("<C-C>")
-  SlimuxShellRun("clear; make run;")
-endfunction
-map <Leader>e :exec SlimuxMakeRun()<CR>
-
-" limelight and goyo "
-nmap <Leader>l <Plug>(Limelight)
-xmap <Leader>l <Plug>(Limelight)
-nmap <Leader>o :Goyo<CR>
-
-" color name (:help cterm-colors) or ANSI code
-let g:limelight_conceal_ctermfg = 'gray'
-let g:limelight_conceal_ctermfg = 240
-" Color name (:help gui-colors) or RGB color
-let g:limelight_conceal_guifg = 'DarkGray'
-let g:limelight_conceal_guifg = '#777777'
-" Default: 0.5
-let g:limelight_default_coefficient = 0.7
-" Number of preceding/following paragraphs to include (default: 0)
-let g:limelight_paragraph_span = 1
-autocmd! User GoyoEnter Limelight
-autocmd! User GoyoLeave Limelight!
-function! s:goyo_enter()
-  SyntasticToggleMode
-endfunction
-function! s:goyo_leave()
-  SyntasticToggleMode
-endfunction
-autocmd User GoyoEnter call <SID>goyo_enter()
-autocmd User GoyoLeave call <SID>goyo_leave()
+noremap <Leader>r :exec VimuxMakeRun()<CR>
 
 " Word wrap w/o line breaks "
 set wrap
@@ -272,25 +229,25 @@ nnoremap Q <nop>
 
 " folds! "
 set foldenable
-set foldmethod=indent
+set foldmethod=syntax
 set foldnestmax=2
 set foldlevel=1
 set foldlevelstart=1
 set foldminlines=10
 set fillchars=vert:\|,fold:\
-map <Leader>f zR
+noremap <Leader>f zR
 " Toggle folds with space "
 fu! ToggleFold()
-   if foldlevel('.') == 0
-       normal! l
-   else
-       if foldclosed('.') < 0
-           . foldclose
-       else
-           . foldopen
-       endif
-   endif
-   echo
+  if foldlevel('.') == 0
+    normal! l
+  else
+    if foldclosed('.') < 0
+      . foldclose
+    else
+      . foldopen
+    endif
+  endif
+  echo
 endf
 noremap <space> :call ToggleFold()<CR>
 
@@ -300,7 +257,9 @@ let g:syntastic_auto_loc_list=1
 let g:syntastic_check_on_open=1
 let g:syntastic_loc_list_height=5
 let g:syntastic_always_populate_loc_list=1
-map <Leader><Tab> :Errors<CR>
+let g:syntastic_javascript_checkers = ['json_tool']
+let g:syntastic_make_checkers = ['gnumake']
+noremap <Leader><Tab> :Errors<CR>
 
 
 " ESFormatting "
@@ -316,7 +275,7 @@ noremap <silent> <leader>cu :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader
 
 
 " Taglist "
-map <silent> <Leader>t :TlistToggle<CR>
+noremap <silent> <Leader>t :TlistToggle<CR>
 let Tlist_Auto_Open=1
 let Tlist_Exit_OnlyWindow=1
 
@@ -324,5 +283,7 @@ let Tlist_Exit_OnlyWindow=1
 let g:syntastic_javascript_checkers = ['gjslint','jshint']
 let g:syntastic_aggregate_errors = 1
 let g:syntastic_javascript_gjslint_quiet_messages = {
-  \ "type": "style",
-  \ "regex": 'Line too long' }
+      \ "type": "style",
+      \ "regex": 'Line too long' }
+
+let g:ycm_rust_src_path = '/usr/local/rust/src'

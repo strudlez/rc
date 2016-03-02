@@ -46,11 +46,11 @@ urxvt.urgentOnBell: true
 *color7:    #CCCCC6
 *color15:   #F8F8F2
 
-URxvt*font:                 xft:Menlo for Powerline:regular:size=8
-URxvt*imFont:               xft:Menlo for Powerline:regular:size=8
-URxvt*boldFont:             xft:Menlo for Powerline:bold:size=8
-URxvt*italicFont:           xft:Menlo for Powerline:italic:size=8
-URxvt*boldItalicFont:       xft:Menlo for Powerline:bold:italic:size=8
+URxvt*font:                 xft:Menlo for Powerline:regular:size=14
+URxvt*imFont:               xft:Menlo for Powerline:regular:size=14
+URxvt*boldFont:             xft:Menlo for Powerline:bold:size=14
+URxvt*italicFont:           xft:Menlo for Powerline:italic:size=14
+URxvt*boldItalicFont:       xft:Menlo for Powerline:bold:italic:size=14
 
 URxvt*urgentOnBell: true
 XTerm*bellIsUrgent: true
