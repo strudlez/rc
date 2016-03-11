@@ -22,7 +22,7 @@ function upsert_path {
 }
 
 export RCDIR=$HOME/.rc
-export GOOG_RCDIR=$HOME/.goog_rc
+export WORK_RCDIR=$HOME/.work_rc
 
 if [ $IS_OSX ]; then
   upsert_path '/usr/local/bin' left
@@ -178,11 +178,11 @@ else
 fi
 alias ll='ls -lh'
 
-if [ -d "$GOOG_RCDIR" ]; then
-  upsert_path "$GOOG_RCDIR/bin" left
-  source $GOOG_RCDIR/goog_zsh
+if [ -d "$WORK_RCDIR" ]; then
+  upsert_path "$WORK_RCDIR/bin" left
+  source $WORK_RCDIR/zsh.rc
 else
-  unset GOOG_RCDIR
+  unset WORK_RCDIR
 fi
 
 if [ -f "$HOME/.zsh.local" ]; then

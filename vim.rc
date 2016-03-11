@@ -314,8 +314,8 @@ map <silent> <Leader>t :TlistToggle<CR>
 
 let g:haddock_browser="o"
 
-if filereadable($GOOG_RCDIR . "/goog_vimrc")
-  source $GOOG_RCDIR/goog_vimrc
+if filereadable($WORK_RCDIR . "/vim.rc")
+  source $WORK_RCDIR/vim.rc
 else
   Bundle 'Valloric/YouCompleteMe'
   Bundle 'Rip-Rip/clang_complete'
