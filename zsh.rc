@@ -48,13 +48,10 @@ export ZSH=$RCDIR/submodules/oh-my-zsh.git
 export ZSH_THEME="fishy"
 
 #plugins=(vi-mode rvm tmux)
-plugins=(rvm tmux)
+plugins=(rvm tmux history-substring-search zsh-syntax-highlighting)
 
 source $RCDIR/submodules/oh-my-zsh.git/oh-my-zsh.sh
 source $RCDIR/submodules/zsh-syntax-highlighting.git/zsh-syntax-highlighting.zsh
-source $RCDIR/submodules/zsh-history-substring-search.git/zsh-history-substring-search.zsh
-[[ -n "${key[Up]}"   ]] && bindkey "${key[Up]}"   history-substring-search-up
-[[ -n "${key[Down]}" ]] && bindkey "${key[Down]}" history-substring-search-down
 export PROMPT="$PROMPT%{$(echo "\a")%}"
 
 # Don't correct args inside of commands
@@ -78,7 +75,6 @@ bindkey '^Xe' edit-command-line
 export EDITOR="vim -X"
 
 # For tmux
-export DISPLAY=:0.0
 unset DBUS_SESSION_BUS_ADDRESS
 
 # other cool keyboard shortcuts
@@ -170,6 +166,7 @@ alias todo="$HOME/software/todo.txt-cli/todo.sh"
 alias ack='ag'
 alias glo='killall gnome-session'
 alias jsonlint='python -mjson.tool'
+#alias vim='nvim'
 
 if [ $IS_OSX ]; then
   alias ls='ls -G'
@@ -191,4 +188,5 @@ fi
 if [ -f "$HOME/.zsh.local" ]; then
   source $HOME/.zsh.local
 fi
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

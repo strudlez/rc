@@ -9,13 +9,16 @@ Bundle 'gmarik/vundle'
 Bundle 'kien/ctrlp.vim'
 Bundle 'tpope/vim-fugitive'
 Bundle 'bling/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 Bundle 'vim-scripts/taglist.vim'
 Bundle 'scrooloose/syntastic'
-" Bundle 'airblade/vim-gitgutter'
+Bundle 'airblade/vim-gitgutter'
 Bundle 'tpope/vim-obsession'
+Bundle 'chrisbra/vim-diff-enhanced'
+Bundle 'vim-scripts/DirDiff.vim'
+Bundle 'rking/ag.vim'
 
 " Language support
-Bundle 'Rip-Rip/clang_complete'
 Bundle 'lukerandall/haskellmode-vim'
 Bundle 'vim-ruby/vim-ruby'
 Bundle 'tpope/vim-rails'
@@ -24,9 +27,14 @@ Bundle 'vim-scripts/VimClojure'
 Bundle 'tmhedberg/matchit'
 Bundle 'groenewege/vim-less'
 Bundle 'lepture/vim-velocity'
-Bundle 'rking/ag.vim'
 Bundle 'hdima/python-syntax'
 Bundle 'tfnico/vim-gradle'
+Bundle 'burnettk/vim-angular'
+Bundle 'pangloss/vim-javascript'
+Bundle 'othree/javascript-libraries-syntax.vim'
+Bundle 'matthewsimo/angular-vim-snippets'
+Bundle 'uarun/vim-protobuf'
+Bundle 'google/vim-ft-bzl'
 
 set t_Co=256
 colorscheme bubblegum
@@ -46,13 +54,13 @@ endif
 set tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 set autoindent smartindent cindent
 
-au BufRead,BufNewFile Makefile* set noexpandtab
-au BufRead,BufNewFile *.java setlocal tabstop=2 softtabstop=2 shiftwidth=2
+au BufRead,BufNewFile Makefile* setlocal noexpandtab
+au BufRead,BufNewFile *.java setlocal tabstop=2 softtabstop=2 shiftwidth=2 textwidth=100
 au BufRead,BufNewFile *.vm setlocal tabstop=2 softtabstop=2 shiftwidth=2 textwidth=200
-au BufRead,BufNewFile *.rb  set textwidth=80
-au BufRead,BufNewFile *.js  set textwidth=80
-autocmd FileType python set omnifunc=pythoncomplete#Complete
-autocmd FileType c set omnifunc=ccomplete#Complete
+au BufRead,BufNewFile *.rb  setlocal textwidth=100
+au BufRead,BufNewFile *.js  setlocal textwidth=80
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType c setlocal omnifunc=ccomplete#Complete
 
 syntax on
 filetype plugin indent on
@@ -180,6 +188,26 @@ endfunction
 nmap <silent> <leader>l :call ToggleList("Location List", 'l')<CR>
 nmap <silent> <leader>e :call ToggleList("Quickfix List", 'c')<CR>
 
+command! -complete=shellcmd -nargs=+ Shell call s:RunShellCommand(<q-args>)
+function! s:RunShellCommand(cmdline)
+  " echo a:cmdline
+  let expanded_cmdline = a:cmdline
+  for part in split(a:cmdline, ' ')
+     if part[0] =~ '\v[%#<]'
+        let expanded_part = fnameescape(expand(part))
+        let expanded_cmdline = substitute(expanded_cmdline, part, expanded_part, '')
+     endif
+  endfor
+  botright new
+  setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap
+  "call setline(1, 'You entered:    ' . a:cmdline)
+  "call setline(2, 'Expanded Form:  ' .expanded_cmdline)
+  "call setline(3,substitute(getline(2),'.','=','g'))
+  execute '$read !'. expanded_cmdline
+  setlocal nomodifiable
+  1
+endfunction
+
 " Wrap location jumps
 function! WrapCommand(direction, prefix)
   if a:direction == "up"
@@ -251,7 +279,7 @@ let g:EclimCompletionMethod = 'omnifunc'
 map <Leader>b <ESC>:CtrlPBuffer<CR>
 map <Leader><Space> <ESC>:CtrlPMRUFiles<CR>
 let g:ctrlp_working_path_mode = 'ra'
-set wildignore+=*/tmp/*,*.o,*.so,*.swp,*.zip,*.jar,*.class,*.pdf,*.gif,*.png,*.jpg,*.o,*.hi,*.pyc
+set wildignore+=*.o,*.so,*.swp,*.zip,*.jar,*.class,*.pdf,*.gif,*.png,*.jpg,*.o,*.hi,*.pyc
 let g:ctrlp_custom_ignore = '\v[\/](_build|(\.(git|hg|svn)))$'
 let g:ctrlp_max_depth = 20
 let g:ctrlp_max_files = 0
@@ -263,7 +291,23 @@ endif
 set laststatus=2   " Always show the statusline
 set noshowmode " Hide the default mode text (e.g. -- INSERT -- below the statusline)
 let g:airline_powerline_fonts=1
-let g:airline_theme='badwolf'
+let g:airline_theme='dark'
+let g:airline_mode_map = {
+  \ '__' : '-',
+  \ 'n'  : 'N',
+  \ 'i'  : 'I',
+  \ 'R'  : 'R',
+  \ 'v'  : 'V',
+  \ 'V'  : 'V-L',
+  \ 'c'  : 'C',
+  \ '' : 'V-B',
+  \ 's'  : 'S',
+  \ 'S'  : 'S-L',
+  \ '' : 'S-B',
+  \ }
+
+let g:airline_section_x = airline#section#create_right([''])
+let g:airline_section_z = airline#section#create(['%c'])
 
 " Taglist
 map <silent> <Leader>t :TlistToggle<CR>
@@ -274,4 +318,5 @@ if filereadable($GOOG_RCDIR . "/goog_vimrc")
   source $GOOG_RCDIR/goog_vimrc
 else
   Bundle 'Valloric/YouCompleteMe'
+  Bundle 'Rip-Rip/clang_complete'
 end
