@@ -1,10 +1,13 @@
 #!/bin/sh
+BIN="$(dirname ${BASH_SOURCE[0]})/../bin"
+PA_VOL="$BIN/pa-vol"
+PA_MUTE="$BIN/pa-mute"
 max=100000
 step=10
 inc=$(($max/$step))
 
-pct=$(($(pa-vol)))
-if [ "$(pa-mute)" = "no" ]; then
+pct=$(($($PA_VOL)))
+if [ "$($PA_MUTE)" = "no" ]; then
   vbox=■
 else
   vbox=-
