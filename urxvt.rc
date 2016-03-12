@@ -54,3 +54,4 @@ URxvt*boldItalicFont:       xft:Menlo for Powerline:bold:italic:size=10
 
 URxvt*urgentOnBell: true
 XTerm*bellIsUrgent: true
+URxvt.perl-ext-common: tabbedhide
