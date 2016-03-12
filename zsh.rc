@@ -163,7 +163,7 @@ function htmldecode()
 alias lsdf='get_diff_out;cat $GIT_DIFF_OUT'
 alias rb='git svn rebase'
 alias sdf=git_diff
-alias yu='sudo apt-get update && sudo apt-get upgrade'
+alias yu='sudo apt-get update && sudo apt-get dist-upgrade'
 alias xp='echo "WM_CLASS(STRING) = \"NAME\", \"CLASS\"" && xprop | grep "WM_WINDOW_ROLE\|WM_CLASS"'
 alias todo="$HOME/software/todo.txt-cli/todo.sh"
 alias ack='ag'
