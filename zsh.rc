@@ -16,21 +16,18 @@ function upsert_path {
     else
       export PATH="$PATH:$1"
     fi
+  elif [ $2 = "left" ] && [ -z "$(echo $PATH | grep -E '(^|:)$1:.*:/usr/bin(:|$)')" ]; then
+    export PATH="$1:$PATH"
   fi
 }
 
 export RCDIR=$HOME/.rc
-export TRIP_RCDIR=$HOME/.trip_rc
+export WORK_RCDIR=$HOME/.work_rc
 
 if [ $IS_OSX ]; then
   upsert_path '/usr/local/bin' left
-  if [ -z "$(echo $PATH | grep -E '(^|:)/usr/local/bin:.*:/usr/bin(:|$)')" ]; then
-    export PATH="/usr/local/bin":$PATH
-  fi
   upsert_path "$HOME/.cabal/bin" left
-  if [ -z "$(echo $PATH | grep -E '(^|:)\.cabal:.*:/usr/local/bin(:|$)')" ]; then
-    export PATH="$HOME/.cabal/bin":$PATH
-  fi
+  upsert_path $HOME/homebrew/bin left
 fi
 
 if [ -d "$RCDIR/bin" ] ; then
@@ -51,14 +48,15 @@ export ZSH=$RCDIR/submodules/oh-my-zsh.git
 export ZSH_THEME="fishy"
 
 #plugins=(vi-mode rvm tmux)
-plugins=(rvm tmux)
+plugins=(rvm tmux history-substring-search zsh-syntax-highlighting)
 
 source $RCDIR/submodules/oh-my-zsh.git/oh-my-zsh.sh
 source $RCDIR/submodules/zsh-syntax-highlighting.git/zsh-syntax-highlighting.zsh
-source $RCDIR/submodules/zsh-history-substring-search.git/zsh-history-substring-search.zsh
-[[ -n "${key[Up]}"   ]] && bindkey "${key[Up]}"   history-substring-search-up
-[[ -n "${key[Down]}" ]] && bindkey "${key[Down]}" history-substring-search-down
 export PROMPT="$PROMPT%{$(echo "\a")%}"
+
+# Don't correct args inside of commands
+unsetopt correct_all
+setopt correct
 
 # Time commands that take >10s to finish
 export REPORTTIME=10
@@ -77,7 +75,6 @@ bindkey '^Xe' edit-command-line
 export EDITOR="vim -X"
 
 # For tmux
-export DISPLAY=:0.0
 unset DBUS_SESSION_BUS_ADDRESS
 
 # other cool keyboard shortcuts
@@ -169,6 +166,7 @@ alias todo="$HOME/software/todo.txt-cli/todo.sh"
 alias ack='ag'
 alias glo='killall gnome-session'
 alias jsonlint='python -mjson.tool'
+#alias vim='nvim'
 
 if [ $IS_OSX ]; then
   alias ls='ls -G'
@@ -180,13 +178,15 @@ else
 fi
 alias ll='ls -lh'
 
-if [ -d "$TRIP_RCDIR" ]; then
-  upsert_path "$TRIP_RCDIR/bin" left
-  source $TRIP_RCDIR/trip_zsh
+if [ -d "$WORK_RCDIR" ]; then
+  upsert_path "$WORK_RCDIR/bin" left
+  source $WORK_RCDIR/zsh.rc
 else
-  unset TRIP_RCDIR
+  unset WORK_RCDIR
 fi
 
 if [ -f "$HOME/.zsh.local" ]; then
   source $HOME/.zsh.local
 fi
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
