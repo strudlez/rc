@@ -3,4 +3,5 @@ vim/Session.vim
 vim/.netrwhist
 vim/bundle/*
 vim/eclim
+vim/init.vim
 vim/plugin/eclim.vim
