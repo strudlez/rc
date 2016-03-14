@@ -1,0 +1,3 @@
+#!/bin/sh
+
+trayer --edge top --align center --SetDockType true --SetPartialStrut true --expand true --width 15 --height 18 --transparent true --tint 0x0 --alpha 0
