@@ -119,9 +119,11 @@ set -g @tpm_plugins "              \
   tmux-plugins/tpm                 \
   tmux-plugins/tmux-sensible       \
   tmux-plugins/tmux-resurrect      \
+  tmux-plugins/tmux-yank           \
+  tmux-plugins/tmux-copycat        \
 "
 # initializes TMUX plugin manager
-run-shell ~/.rc/submodules/tpm/tpm
+run-shell $HOME/.rc/submodules/tpm/tpm
 
 bind-key C-q last-window
 
