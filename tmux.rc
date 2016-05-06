@@ -99,15 +99,19 @@ bind-key _ split-window -v -c "#{pane_current_path}"
 # Keep path when opening a new tab
 bind-key c new-window -c "#{pane_current_path}"
 
+# mouse mode
+# Tmux changed mouse settings in version 2.1
+if-shell "test `tmux -V | cut -d' ' -f2 | tr . 0` -lt 201" \
+  'set -g mode-mouse on ; setw -g mouse-select-window on setw -g mouse-select-pane on'
+if-shell "test `tmux -V | cut -d' ' -f2 | tr . 0 ` -ge 201" \
+ 'set -g mouse-utf8 on ; set -g mouse on ; bind-key -n WheelUpPane copy-mode'
+
 # more stuff
 set-option -g bell-action any
 set -g default-terminal "screen"
 set -g terminal-overrides 'xterm*:smcup@:rmcup@'
 set -g default-command $SHELL
 set -g history-limit 5000
-set -g mode-mouse on
-setw -g mouse-select-window on
-setw -g mouse-select-pane on
 setw -g aggressive-resize on
 
 # List of plugins
@@ -115,9 +119,11 @@ set -g @tpm_plugins "              \
   tmux-plugins/tpm                 \
   tmux-plugins/tmux-sensible       \
   tmux-plugins/tmux-resurrect      \
+  tmux-plugins/tmux-yank           \
+  tmux-plugins/tmux-copycat        \
 "
 # initializes TMUX plugin manager
-run-shell ~/.rc/submodules/tpm/tpm
+run-shell $HOME/.rc/submodules/tpm/tpm
 
 bind-key C-q last-window
 
