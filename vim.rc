@@ -17,9 +17,12 @@ Bundle 'tpope/vim-obsession'
 Bundle 'chrisbra/vim-diff-enhanced'
 Bundle 'vim-scripts/DirDiff.vim'
 Bundle 'rking/ag.vim'
+Bundle 'Shougo/vimproc.vim'
 
 " Language support
 Bundle 'lukerandall/haskellmode-vim'
+Bundle 'eagletmt/ghcmod-vim'
+Bundle 'eagletmt/neco-ghc'
 Bundle 'vim-ruby/vim-ruby'
 Bundle 'tpope/vim-rails'
 Bundle 'scala/scala-dist', {'rtp': 'tool-support/src/vim'}
@@ -254,6 +257,8 @@ let g:syntastic_auto_loc_list=1
 let g:syntastic_check_on_open=1
 let g:syntastic_loc_list_height=5
 let g:syntastic_always_populate_loc_list=1
+" Ignore haskell with syntastic
+let g:syntastic_ignore_files = ['\m.*\.hs']
 map <Leader><Tab> :Errors<CR>
 
 " eclim stuff
@@ -313,6 +318,8 @@ let g:airline_section_z = airline#section#create(['%c'])
 map <silent> <Leader>t :TlistToggle<CR>
 
 let g:haddock_browser="o"
+
+autocmd BufWritePost *.hs GhcModCheckAndLintAsync
 
 if filereadable($WORK_RCDIR . "/vim.rc")
   source $WORK_RCDIR/vim.rc
