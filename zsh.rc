@@ -37,6 +37,7 @@ fi
 if [ -d "$HOME/.cabal/bin" ] ; then
   upsert_path "$HOME/.cabal/bin" left
 fi
+setopt autonamedirs
 
 export RVM_HOME=$HOME/.rvm
 
@@ -155,6 +156,11 @@ function git_prompt_status() {
 function htmldecode()
 {
   perl -n -mHTML::Entities -e ' ; print HTML::Entities::decode_entities($_) ;'
+}
+
+function fixgit()
+{
+  mv $2 $1 && git mv $1 $2
 }
 
 alias lsdf='get_diff_out;cat $GIT_DIFF_OUT'
