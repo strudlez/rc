@@ -108,8 +108,7 @@ bind-key c new-window -c "#{pane_current_path}"
 if-shell "test `tmux -V | cut -d' ' -f2 | tr . 0` -lt 201" \
   'set -g mode-mouse on ; setw -g mouse-select-window on ; setw -g mouse-select-pane on'
 if-shell "test `tmux -V | cut -d' ' -f2 | tr . 0 ` -ge 201" \
- 'set -g mouse-utf8 on ; set -g mouse on ; bind-key -n WheelUpPane copy-mode'
-
+ 'set -g mouse-utf8 on ; set -g mouse on ; bind -n WheelUpPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" "if -Ft= \"#{pane_in_mode}\" \"send-keys -M\" \"select-pane -t=; copy-mode -e; send-keys -M\""; bind -n WheelDownPane select-pane -t= \; send-keys -M'
 # more stuff
 set-option -g bell-action any
 set -g default-terminal "screen"
