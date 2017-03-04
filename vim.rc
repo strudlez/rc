@@ -259,8 +259,11 @@ let g:syntastic_auto_loc_list=1
 let g:syntastic_check_on_open=1
 let g:syntastic_loc_list_height=5
 let g:syntastic_always_populate_loc_list=1
+let g:syntastic_check_on_wq = 0
 " Ignore haskell with syntastic
 let g:syntastic_ignore_files = ['\m.*\.hs']
+" Rust setup
+let g:syntastic_rust_checkers = ['rustc']
 map <Leader><Tab> :Errors<CR>
 
 " eclim stuff
@@ -316,6 +319,11 @@ let g:airline_mode_map = {
 let g:airline_section_x = airline#section#create_right([''])
 let g:airline_section_z = airline#section#create(['%c'])
 
+" Goto
+nnoremap <Leader>] :YcmCompleter GoTo<CR>
+
+let g:ycm_rust_src_path = '/usr/local/rust/src'
+
 " Taglist
 map <silent> <Leader>t :TlistToggle<CR>
 
@@ -323,12 +331,13 @@ let g:haddock_browser="o"
 
 autocmd BufWritePost *.hs GhcModCheckAndLintAsync
 
-" Autoformat rust
-let g:rustfmt_autosave = 1
-
 if filereadable($WORK_RCDIR . "/vim.rc")
   source $WORK_RCDIR/vim.rc
 else
   Bundle 'Valloric/YouCompleteMe'
   Bundle 'Rip-Rip/clang_complete'
+end
+
+if filereadable($HOME . "/.vimrc.local")
+  source $HOME/.vimrc.local
 end
