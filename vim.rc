@@ -1,4 +1,5 @@
 set nocompatible
+filetype off " Need to turn off filetype during vundle step.
 
 " Vundle
 set rtp+=~/.vim/bundle/vundle/
@@ -38,6 +39,7 @@ Bundle 'othree/javascript-libraries-syntax.vim'
 Bundle 'matthewsimo/angular-vim-snippets'
 Bundle 'uarun/vim-protobuf'
 Bundle 'google/vim-ft-bzl'
+Bundle 'rust-lang/rust.vim'
 
 set t_Co=256
 colorscheme bubblegum
@@ -320,6 +322,9 @@ map <silent> <Leader>t :TlistToggle<CR>
 let g:haddock_browser="o"
 
 autocmd BufWritePost *.hs GhcModCheckAndLintAsync
+
+" Autoformat rust
+let g:rustfmt_autosave = 1
 
 if filereadable($WORK_RCDIR . "/vim.rc")
   source $WORK_RCDIR/vim.rc
