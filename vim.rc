@@ -19,6 +19,7 @@ Bundle 'chrisbra/vim-diff-enhanced'
 Bundle 'vim-scripts/DirDiff.vim'
 Bundle 'rking/ag.vim'
 Bundle 'Shougo/vimproc.vim'
+Bundle 'jiangmiao/auto-pairs'
 
 " Language support
 Bundle 'lukerandall/haskellmode-vim'
