@@ -1,16 +1,19 @@
+{-# LANGUAGE FlexibleContexts #-}
 import XMonad.Layout.IM
 import XMonad.Layout.Reflect
 import Data.Ratio ((%))
-import XMonad.Layout.PerWorkspace
 import XMonad hiding (Tall)
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.UrgencyHook
+import XMonad.Layout.PerWorkspace
 import XMonad.Layout.LayoutHints
 import XMonad.Layout.ResizableTile
+import XMonad.Layout.Spacing
+import XMonad.Layout.Gaps
 import XMonad.Prompt
-import XMonad.Config.Gnome
 import XMonad.Prompt.Shell
+import XMonad.Config.Gnome
 import XMonad.Util.Run(spawnPipe)
  
 import System.Exit
@@ -27,7 +30,7 @@ isWork env = isJust (lookup "TRIP_RCDIR" env)
 workspace work =
   if work
     then ["Web", "Eclipse", "Email/IM", "RDP", "Extra", "", "", "", ""]
-    else ["Term", "Web", "Email/IM", "Extra", "", "", "", "", ""]
+    else ["Term", "XChat", "Email", "Firefox", "Chrome", "Extra", "", "", ""]
 
 number a b
   | b == ""   = a
@@ -107,7 +110,7 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     ++
  
     [((m .|. modMask, key), screenWorkspace sc >>= flip whenJust (windows . f))
-        | (key, sc) <- zip [xK_w, xK_e, xK_r] [0..]
+        | (key, sc) <- zip [xK_e, xK_r, xK_w] [0..]
         , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
  
 myMouseBindings (XConfig {XMonad.modMask = modMask}) = M.fromList $
@@ -122,6 +125,8 @@ tallLayout ratio = ResizableTall nmaster delta ratio []
   where
     nmaster = 1
     delta   = 1/100
+    ratio   = 1/2
+
 
 mtallLayout ratio = Mirror $ tallLayout ratio
 
@@ -140,6 +145,8 @@ pidginLayout work =
 
 myLayout ws_hash work = 
   avoidStruts $ 
+  gaps [(U,10), (R,10), (L,10), (R,10)] $
+  spacing 10 $
     onWorkspace (dlookup "Email/IM" ws_hash) (pidginLayout work) $
     tall ||| mtall ||| Full
   where
@@ -152,7 +159,11 @@ myLayout ws_hash work =
 myManageHook ws_hash =
   composeAll
     [ className =? "Pidgin"      --> doShift (dlookup "Email/IM" ws_hash)
-    , className =? "Firefox"     --> doShift (dlookup "Web"      ws_hash)
+    , className =? "Firefox"     --> doShift (dlookup "Firefox"      ws_hash)
+    , className =? "Chromium"     --> doShift (dlookup "Chromium"      ws_hash)
+    , className =? "Chrome"     --> doShift (dlookup "Chromium"      ws_hash)
     , className =? "Thunderbird" --> doShift (dlookup "Email/IM" ws_hash)
+    , className =? "XChat" --> doShift (dlookup "IM" ws_hash)
+    , className =? "Evolution" --> doShift (dlookup "Email" ws_hash)
     , className =? "Eclipse"     --> doShift (dlookup "Eclipse"  ws_hash)
     , className =? "Remmina"     --> doShift (dlookup "RDP"  ws_hash)]

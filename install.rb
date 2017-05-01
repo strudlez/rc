@@ -56,7 +56,7 @@ end
 
 def compile_ycm
 	puts "[Compiling YouCompleteMe]"
-	output = `./vim/bundle/YouCompleteMe/install.sh`
+	output = `./vim/bundle/YouCompleteMe/install.py`
 	puts "#{output}"
 end
 

@@ -31,8 +31,8 @@ bind q send-prefix
 bind-key C-q last-window
 
 # Alt jk for moving between tabs
-bind-key -n M-k next-window
-bind-key -n M-j previous-window
+bind-key -n M-j next-window
+bind-key -n M-k previous-window
 
 # Alt hl to swap tabs
 bind-key -n M-h swap-window -t :-1 
