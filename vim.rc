@@ -20,6 +20,7 @@ Bundle 'vim-scripts/DirDiff.vim'
 Bundle 'rking/ag.vim'
 Bundle 'Shougo/vimproc.vim'
 Bundle 'jiangmiao/auto-pairs'
+Bundle 'sjl/gundo.vim'
 
 " Language support
 Bundle 'lukerandall/haskellmode-vim'
