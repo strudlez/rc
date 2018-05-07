@@ -179,7 +179,7 @@ if [ $IS_OSX ]; then
   alias o=open
 else
   alias ls='ls --color=auto'
-  alias o=gnome-open
+  alias o=xdg-open
   export UBUNTU_MENUPROXY=0
 fi
 alias ll='ls -lh'
