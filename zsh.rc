@@ -37,6 +37,11 @@ fi
 if [ -d "$HOME/.cabal/bin" ] ; then
   upsert_path "$HOME/.cabal/bin" left
 fi
+
+if [ -d "$HOME/.cargo/bin" ] ; then
+  upsert_path "$HOME/.cargo/bin" left
+fi
+
 setopt autonamedirs
 
 export RVM_HOME=$HOME/.rvm
@@ -172,7 +177,7 @@ alias todo="$HOME/software/todo.txt-cli/todo.sh"
 alias ack='ag'
 alias glo='killall gnome-session'
 alias jsonlint='python -mjson.tool'
-#alias vim='nvim'
+alias vim='nvim'
 
 if [ $IS_OSX ]; then
   alias ls='ls -G'
