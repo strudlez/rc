@@ -51,6 +51,7 @@ Bundle 'matthewsimo/angular-vim-snippets'
 Bundle 'uarun/vim-protobuf'
 Bundle 'google/vim-ft-bzl'
 Bundle 'rust-lang/rust.vim'
+Bundle 'idris-hackers/idris-vim'
 
 set t_Co=256
 colorscheme bubblegum
