@@ -61,6 +61,10 @@ bind-key -n C-Left resize-pane -L
 bind-key -n C-Right resize-pane -R
 bind-key -n C-Up resize-pane -U
 bind-key -n C-Down resize-pane -D
+bind-key C-Left resize-pane -L 5
+bind-key C-Right resize-pane -R 5
+bind-key C-Up resize-pane -U 5
+bind-key C-Down resize-pane -D 5
 
 # Vim style move
 bind-key k select-pane -U
