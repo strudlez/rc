@@ -7,7 +7,7 @@ set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 Bundle 'gmarik/vundle'
 
-Bundle 'kien/ctrlp.vim'
+Bundle 'ctrlpvim/ctrlp.vim'
 Bundle 'tpope/vim-fugitive'
 Bundle 'bling/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
@@ -21,6 +21,15 @@ Bundle 'rking/ag.vim'
 Bundle 'Shougo/vimproc.vim'
 Bundle 'jiangmiao/auto-pairs'
 Bundle 'sjl/gundo.vim'
+Bundle 'tpope/tpope-vim-abolish'
+
+if has('nvim')
+  Bundle 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Bundle 'Shougo/deoplete.nvim'
+  Bundle 'roxma/nvim-yarp'
+  Bundle 'roxma/vim-hug-neovim-rpc'
+endif
 
 " Language support
 Bundle 'lukerandall/haskellmode-vim'
@@ -78,7 +87,7 @@ filetype plugin indent on
 set backspace=indent,eol,start
 
 set spelllang=en_us
-set nospell
+set spell
 nmap <silent> <leader>s :set spell!<CR>
 
 " nice searching
@@ -340,10 +349,32 @@ let g:haddock_browser="o"
 
 autocmd BufWritePost *.hs GhcModCheckAndLintAsync
 
+" Deoplete
+
+" Eclim support
+" See https://www.reddit.com/r/vim/comments/5xspok/trouble_with_eclim_and_deoplete
+let g:deoplete#omni#input_patterns = {}
+let g:deoplete#omni#input_patterns.java = '[^. *\t]\.\w*'
+
+" Autoclose preview windows
+" https://github.com/Shougo/deoplete.nvim/issues/115
+autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+
+" https://github.com/Shougo/deoplete.nvim/issues/100
+" use tab to forward cycle
+inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+" use tab to backward cycle
+inoremap <silent><expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
+
+" Lazy load Deoplete to reduce statuptime
+" See manpage
+" Enable deoplete when InsertEnter.
+let g:deoplete#enable_at_startup = 0
+autocmd InsertEnter * call deoplete#enable()
+
 if filereadable($WORK_RCDIR . "/vim.rc")
   source $WORK_RCDIR/vim.rc
 else
-  Bundle 'Valloric/YouCompleteMe'
   Bundle 'Rip-Rip/clang_complete'
 end
 
