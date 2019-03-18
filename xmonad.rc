@@ -12,30 +12,30 @@ import XMonad.Prompt
 import XMonad.Config.Gnome
 import XMonad.Prompt.Shell
 import XMonad.Util.Run(spawnPipe)
- 
+
 import System.Exit
 import System.IO
 import Data.Monoid
 
 import System.Environment
 import Data.Maybe
- 
+
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 
-isWork env = isJust (lookup "TRIP_RCDIR" env)
+isWork env = isJust (lookup "P4CONFIG" env)
 workspace work =
   if work
-    then ["Web", "Eclipse", "Email/IM", "RDP", "Extra", "", "", "", ""]
+    then ["Web", "Eclipse", "Personal", "Extra", "", "", "", "", ""]
     else ["Term", "Web", "Email/IM", "Extra", "", "", "", "", ""]
 
 number a b
   | b == ""   = a
   | otherwise = a ++ ":" ++ b
 
-ws_num = map (\s -> [s]) ['1'..'9']
-ws_number list = zipWith number ws_num list
-work_hash ws = M.fromList $ zip ws $ ws_number ws
+wsNum = map (: []) ['1'..'9']
+wsNumber = zipWith number wsNum
+workHash ws = M.fromList $ zip ws $ wsNumber ws
 
 djust m = case m of Just  _ -> fromJust m
                     Nothing -> ""
@@ -45,13 +45,13 @@ main = do
     xmproc <- spawnPipe "xmobar"
     env    <- getEnvironment
     let work    = isWork env
-    let ws_list = workspace work
-    let ws_hash = work_hash $ ws_list
+    let wsList = workspace work
+    let ws_hash = workHash wsList
 
     xmonad $ withUrgencyHook NoUrgencyHook
            $ gnomeConfig {
                 terminal           = "urxvt",
-                workspaces         = ws_number ws_list,
+                workspaces         = wsNumber wsList,
                 normalBorderColor  = "#333333",
                 focusedBorderColor = "#3399cc",
                 borderWidth        = 2,
@@ -67,9 +67,9 @@ main = do
                                      }
     }
 
-inc_vol = ""
+incVol = ""
  
-myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
+myKeys conf@XConfig {XMonad.modMask = modMask} = M.fromList $
  
     [ ((modMask              , xK_Return   ), spawn $ XMonad.terminal conf)
     , ((modMask .|. shiftMask, xK_c        ), kill)
@@ -90,13 +90,15 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     , ((modMask              , xK_t        ), withFocused $ windows . W.sink)
     , ((modMask              , xK_comma    ), sendMessage (IncMasterN 1))
     , ((modMask              , xK_period   ), sendMessage (IncMasterN (-1)))
-    , ((modMask .|. shiftMask, xK_q        ), io (exitWith ExitSuccess))
+    , ((modMask .|. shiftMask, xK_q        ), io exitSuccess)
     , ((modMask              , xK_q        ), spawn "xmonad --recompile; xmonad --restart")
-    , ((modMask              , xK_p        ), shellPrompt defaultXPConfig)
+    , ((modMask              , xK_p        ), shellPrompt def)
     , ((0                    , 0x1008ff13  ), spawn "pa-set-vol plus")
     , ((0                    , 0x1008ff11  ), spawn "pa-set-vol minus")
     , ((0                    , 0x1008ff12  ), spawn "pa-set-vol mute")
-    , ((modMask              , xK_Print    ), spawn "scrot -e 'mv $f ~/Screenshots'")
+    , ((0                    , xK_Print    ), spawn "gnome-screenshot -i")
+    , ((shiftMask            , xK_Print    ), spawn "gnome-screenshot -a")
+    , ((modMask .|. controlMask, xK_l      ), spawn "cinnamon-screensaver-command -l")
     ]
     ++
  
@@ -110,12 +112,12 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
         | (key, sc) <- zip [xK_w, xK_e, xK_r] [0..]
         , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
  
-myMouseBindings (XConfig {XMonad.modMask = modMask}) = M.fromList $
-    [ ((modMask, button1), (\w -> focus w >> mouseMoveWindow w
-                                          >> windows W.shiftMaster))
-    , ((modMask, button2), (\w -> focus w >> windows W.shiftMaster))
-    , ((modMask, button3), (\w -> focus w >> mouseResizeWindow w
-                                          >> windows W.shiftMaster))
+myMouseBindings XConfig {XMonad.modMask = modMask} = M.fromList
+    [ ((modMask, button1), \w -> focus w >> mouseMoveWindow w
+                                          >> windows W.shiftMaster)
+    , ((modMask, button2), \w -> focus w >> windows W.shiftMaster)
+    , ((modMask, button3), \w -> focus w >> mouseResizeWindow w
+                                          >> windows W.shiftMaster)
     ]
 
 tallLayout ratio = ResizableTall nmaster delta ratio []
@@ -140,7 +142,6 @@ pidginLayout work =
 
 myLayout ws_hash work = 
   avoidStruts $ 
-    onWorkspace (dlookup "Email/IM" ws_hash) (pidginLayout work) $
     tall ||| mtall ||| Full
   where
      tall    = tallLayout ratio
@@ -154,5 +155,7 @@ myManageHook ws_hash =
     [ className =? "Pidgin"      --> doShift (dlookup "Email/IM" ws_hash)
     , className =? "Firefox"     --> doShift (dlookup "Web"      ws_hash)
     , className =? "Thunderbird" --> doShift (dlookup "Email/IM" ws_hash)
-    , className =? "Eclipse"     --> doShift (dlookup "Eclipse"  ws_hash)
-    , className =? "Remmina"     --> doShift (dlookup "RDP"  ws_hash)]
+    , className =? "Remmina"     --> doShift (dlookup "RDP"  ws_hash)
+    , className =? "trayer"      --> doIgnore
+    , className =? "panel"      --> doIgnore
+    ]
