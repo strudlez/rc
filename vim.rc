@@ -58,6 +58,7 @@ Bundle 'uarun/vim-protobuf'
 Bundle 'google/vim-ft-bzl'
 Bundle 'rust-lang/rust.vim'
 Bundle 'idris-hackers/idris-vim'
+Bundle 'leafgarland/typescript-vim'
 
 set t_Co=256
 colorscheme bubblegum
@@ -290,6 +291,7 @@ let g:neomake_python_enabled_makers = ['python']
 " LanguageClinet
 let g:LanguageClient_serverCommands = {
   \ 'cpp': ['clangd'],
+  \ 'typescript': ['typescript-language-server', '--stdio']
   \ }
 
 nnoremap gd :call LanguageClient#textDocument_definition()<CR>
