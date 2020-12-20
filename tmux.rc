@@ -95,14 +95,14 @@ bind C-v run "tmux set-buffer -- \"$(clip-paste -b);\"; tmux paste-buffer"
 
 # Vim copy mode
 set-window-option -g mode-keys vi
-if-shell "test `tmux -V | cut -d' ' -f2 | tr . 0 ` -lt 205" 'bind-key -t vi-copy 'v' begin-selection'
-if-shell "test `tmux -V | cut -d' ' -f2 | tr . 0 ` -lt 205" 'bind-key -t vi-copy 'y' copy-selection'
-if-shell "test `tmux -V | cut -d' ' -f2 | tr . 0 ` -lt 205" 'bind -t vi-copy Escape cancel'
+if-shell "test `tmux -V | cut -d' ' -f2 | tr . 0  | sed 's/[a-z]//'` -lt 205" 'bind-key -t vi-copy 'v' begin-selection'
+if-shell "test `tmux -V | cut -d' ' -f2 | tr . 0  | sed 's/[a-z]//'` -lt 205" 'bind-key -t vi-copy 'y' copy-selection'
+if-shell "test `tmux -V | cut -d' ' -f2 | tr . 0  | sed 's/[a-z]//'` -lt 205" 'bind -t vi-copy Escape cancel'
 
-if-shell "test `tmux -V | cut -d' ' -f2 | tr . 0 ` -ge 205" 'bind-key -Tcopy-mode-vi 'v' send -X begin-selection'
-if-shell "test `tmux -V | cut -d' ' -f2 | tr . 0 ` -ge 205" 'bind-key -Tcopy-mode-vi 'y' send -X copy-selection'
-if-shell "test `tmux -V | cut -d' ' -f2 | tr . 0 ` -ge 205" 'bind-key -Tcopy-mode-vi Escape send -X cancel'
-if-shell "test `tmux -V | cut -d' ' -f2 | tr . 0 ` -ge 205" 'bind-key -Tcopy-mode-vi V send -X rectangle-toggle'
+if-shell "test `tmux -V | cut -d' ' -f2 | tr . 0  | sed 's/[a-z]//'` -ge 205" 'bind-key -Tcopy-mode-vi 'v' send -X begin-selection'
+if-shell "test `tmux -V | cut -d' ' -f2 | tr . 0  | sed 's/[a-z]//'` -ge 205" 'bind-key -Tcopy-mode-vi 'y' send -X copy-selection'
+if-shell "test `tmux -V | cut -d' ' -f2 | tr . 0  | sed 's/[a-z]//'` -ge 205" 'bind-key -Tcopy-mode-vi Escape send -X cancel'
+if-shell "test `tmux -V | cut -d' ' -f2 | tr . 0  | sed 's/[a-z]//'` -ge 205" 'bind-key -Tcopy-mode-vi V send -X rectangle-toggle'
 
 # Saner split window shortcuts
 bind-key % split-window -h -c "#{pane_current_path}"
@@ -114,11 +114,11 @@ bind-key c new-window -c "#{pane_current_path}"
 
 # mouse mode
 # Tmux changed mouse settings in version 2.1
-if-shell "test `tmux -V | cut -d' ' -f2 | tr . 0` -lt 201" \
+if-shell "test `tmux -V | cut -d' ' -f2 | tr . 0 | sed 's/[a-z]//'` -lt 201" \
   'set -g mode-mouse on ; setw -g mouse-select-window on ; setw -g mouse-select-pane on'
-if-shell "test `tmux -V | cut -d' ' -f2 | tr . 0 ` -eq 201" \
+if-shell "test `tmux -V | cut -d' ' -f2 | tr . 0 | sed 's/[a-z]//'` -eq 201" \
  'set -g mouse-utf8 on'
-if-shell "test `tmux -V | cut -d' ' -f2 | tr . 0 ` -ge 201" \
+if-shell "test `tmux -V | cut -d' ' -f2 | tr . 0 | sed 's/[a-z]//'` -ge 201" \
  'set -g mouse on ; bind -n WheelUpPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" "if -Ft= \"#{pane_in_mode}\" \"send-keys -M\" \"select-pane -t=; copy-mode -e; send-keys -M\""; bind -n WheelDownPane select-pane -t= \; send-keys -M'
 # more stuff
 set-option -g bell-action any
