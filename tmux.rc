@@ -34,8 +34,8 @@ bind-key -n M-j next-window
 bind-key -n M-k previous-window
 
 # Alt hl to swap tabs
-bind-key -n M-h swap-window -t :-1
-bind-key -n M-l swap-window -t :+1
+bind-key -n M-h run-shell 'if tmux list-windows | head -n 1 | grep -g active ; then tmux move-window -t 999 \; move window -r \; refresh-client -S ; else tmux swap-window -d -t -1 ; fi'
+bind-key -n M-l run-shell 'if tmux list-windows | tail -n 1 | grep -g active ; then tmux move-window -t 0   \; move window -r \; refresh-client -S ; else tmux swap-window -d -t +1 ; fi'
 
 # Renumber tabs on close
 set -g renumber-windows on
